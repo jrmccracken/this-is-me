@@ -984,3 +984,19 @@ ul{padding:0;list-style:none}
   .footer-credit{font-size:13px}
   .footer-credit img{height:18px}
 }
+
+/* ---- v35: calmer footer corner ---- */
+.footer-meta{gap:0;bottom:calc(60 * var(--u))}
+.footer-meta .footer-social{gap:max(16px, calc(26 * var(--u)));margin-bottom:max(18px, calc(30 * var(--u)))}
+.footer-meta .footer-social a{width:max(26px, calc(34 * var(--u)));min-width:0;padding:0}
+.footer-meta .copyright{font-size:max(13px, calc(22 * var(--u)))}
+.footer-credit{margin-top:max(18px, calc(30 * var(--u)));padding-top:max(14px, calc(22 * var(--u)));border-top:1px solid rgba(61,56,53,.25);align-self:stretch;justify-content:flex-end;font-size:max(11px, calc(16 * var(--u)));opacity:.7}
+.footer-credit img{height:max(13px, calc(19 * var(--u)))}
+@media (max-width:1000px){
+  .footer-meta{gap:0;margin-top:34px}
+  .footer-meta .footer-social{gap:18px;margin-bottom:18px}
+  .footer-meta .footer-social a{width:32px;padding:4px}
+  .footer-meta .copyright{font-size:13px}
+  .footer-credit{justify-content:flex-start;margin-top:18px;padding-top:14px;font-size:12px}
+  .footer-credit img{height:15px}
+}
