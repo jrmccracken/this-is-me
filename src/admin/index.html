@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>This is Me – Content editor</title>
+  <link rel="icon" href="/assets/img/logo.png">
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+  <script>
+    // Show posts in the editor's preview pane using the real site styles
+    CMS.registerPreviewStyle("/assets/styles.css");
+    CMS.registerPreviewTemplate("posts", ({ entry, widgetFor, getAsset }) => {
+      const d = entry.get("data");
+      const h = window.h || React.createElement;
+      const img = d.get("image");
+      return h("div", { className: "post-page" },
+        h("section", { className: "resource-hero" },
+          h("div", { className: "wrap" },
+            h("p", { className: "resource-meta" }, [d.get("category"), d.get("label")].filter(Boolean).join(" · ")),
+            h("h1", {}, d.get("title")),
+            d.get("subtitle") ? h("p", {}, d.get("subtitle")) : null)),
+        h("article", { className: "article" },
+          img && d.get("image_style") === "portrait"
+            ? h("div", { className: "download-preview" }, h("img", { src: getAsset(img).toString() }), h("div", {}, widgetFor("body")))
+            : [img ? h("img", { className: "article-image", src: getAsset(img).toString() }) : null, widgetFor("body")]));
+    });
+  </script>
+</body>
+</html>

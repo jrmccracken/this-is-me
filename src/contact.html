@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact Emma | This is Me</title>
+  <meta name="description" content="Contact Emma Neville about workplace sessions, events, panels, speaking and collaborations.">
+  <link rel="preload" href="/assets/fonts/acumin-w60-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/brightglow-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/styles.css?v=16">
+  <!-- Google Analytics (GA4). Waits for analytics consent from the HubSpot cookie banner. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    gtag('js', new Date());
+    gtag('config', 'G-520T5YCRZ4');
+    var _hsp = window._hsp = window._hsp || [];
+    _hsp.push(['addPrivacyConsentListener', function (consent) {
+      var ok = consent.allowed || (consent.categories && consent.categories.analytics);
+      gtag('consent', 'update', { analytics_storage: ok ? 'granted' : 'denied' });
+    }]);
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-520T5YCRZ4"></script>
+</head>
+<body class="contact-page">
+  <div data-header></div>
+  <main>
+    <section class="contact">
+      <img class="contact-flower" src="/assets/img/contact-flower.webp" alt="" aria-hidden="true" width="752" height="1120">
+      <div class="contact-inner">
+        <h1 class="deco"><img src="/assets/img/h-contact.png" alt="Contact Us"></h1>
+        <p class="contact-intro">If you'd like to start a conversation about working with Emma, we'd love to hear from you. Fill in the form below and we'll be in touch to discuss your event, panel, or collaboration. Please provide as many details about your event as known at this stage.</p>
+
+        <form class="contact-form" name="contact" method="POST" action="/contact-thanks.html" data-netlify="true" netlify-honeypot="bot-field" data-contact-form>
+          <input type="hidden" name="form-name" value="contact">
+          <p class="sr-only"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <label class="field"><span>Name</span><input type="text" name="name" autocomplete="name" required></label>
+          <label class="field"><span>Organisation</span><input type="text" name="organisation" autocomplete="organization"></label>
+          <label class="field full"><span>Email</span><input type="email" name="email" autocomplete="email" required></label>
+          <label class="field full"><span>Message</span><textarea name="message" required></textarea></label>
+          <button class="button tan" type="submit">Submit</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-privacy">We’ll only use your details to reply to your enquiry. See our <a href="/privacy.html">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div data-footer></div>
+  <script src="/assets/site.js?v=16"></script>
+  <script src="/assets/contact-form.js?v=16"></script>
+  <!-- HubSpot tracking code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/149441597.js"></script>
+</body>
+</html>

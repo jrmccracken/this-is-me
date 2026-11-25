@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{title_text}} | This is Me</title>
+  <meta name="description" content="{{description}}">
+  <meta property="og:title" content="{{title_text}}">
+  <meta property="og:description" content="{{description}}">
+  {{og_image}}
+  <link rel="preload" href="/assets/fonts/acumin-w60-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/brightglow-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/graphik-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/styles.css?v={{version}}">
+  <!-- Google Analytics (GA4). Waits for analytics consent from the HubSpot cookie banner. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    gtag('js', new Date());
+    gtag('config', 'G-520T5YCRZ4');
+    var _hsp = window._hsp = window._hsp || [];
+    _hsp.push(['addPrivacyConsentListener', function (consent) {
+      var ok = consent.allowed || (consent.categories && consent.categories.analytics);
+      gtag('consent', 'update', { analytics_storage: ok ? 'granted' : 'denied' });
+    }]);
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-520T5YCRZ4"></script>
+</head>
+<body class="post-page">
+  <div data-header></div>
+  <main>
+    <section class="resource-hero">
+      <div class="wrap">
+        <p class="resource-meta">{{meta}}</p>
+        <h1>{{title}}</h1>
+        {{subtitle}}
+      </div>
+    </section>
+    <article class="article">
+{{content}}
+      <div class="article-actions">{{actions}}<a class="button tan" href="/hub.html{{hub_anchor}}">Back to the Hub</a></div>
+    </article>
+  </main>
+  <div data-footer></div>
+  <script src="/assets/site.js?v={{version}}"></script>
+  <!-- HubSpot tracking code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/149441597.js"></script>
+</body>
+</html>

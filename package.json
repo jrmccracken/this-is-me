@@ -1,0 +1,14 @@
+{
+  "name": "this-is-me-website",
+  "private": true,
+  "description": "This is Me by Emma Neville – website with Decap CMS",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "node build.js && npx --yes serve dist"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^14.1.4"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,92 @@
+/*
+  Newsletter sign-up
+  ------------------
+  The sign-up form is part of the page design.
+
+  MAILCHIMP: paste the "action" link from Mailchimp's embedded form code into
+  mailchimpAction below (Audience > Signup forms > Embedded forms, then look for
+  <form action="https://....list-manage.com/subscribe/post?u=...&id=...">).
+  Once that is filled in, every sign-up goes to Mailchimp.
+
+  HUBSPOT: while mailchimpAction is empty, sign-ups go to the HubSpot
+  "newsletter" form instead, with the marketing consent set up below.
+*/
+window.THIS_IS_ME_MAILCHIMP = {
+  mailchimpAction: ""
+};
+
+window.THIS_IS_ME_HUBSPOT = {
+  portalId: "149441597",
+  newsletterFormId: "fde5e3b4-4e4a-42f9-85df-5d37a94c5c88",
+  subscriptionTypeId: 3732988720,
+  consentText: "By signing up, you agree to receive our newsletter and other communications from This is Me. You can unsubscribe anytime.",
+  processingText: "To deliver your service, we need your permission to store and process your personal data."
+};
+
+(function () {
+  const cfg = window.THIS_IS_ME_HUBSPOT;
+  // Mailchimp's embedded forms accept JSONP sign-ups at /subscribe/post-json
+  function mailchimp(action, email) {
+    return new Promise((resolve, reject) => {
+      const cb = "mc_cb_" + Date.now();
+      const url = action.replace("/subscribe/post?", "/subscribe/post-json?") +
+        "&EMAIL=" + encodeURIComponent(email) + "&c=" + cb;
+      const tag = document.createElement("script");
+      const done = () => { delete window[cb]; tag.remove(); };
+      const timer = setTimeout(() => { done(); reject(new Error("timeout")); }, 12000);
+      window[cb] = (data) => { clearTimeout(timer); done(); resolve(data || {}); };
+      tag.onerror = () => { clearTimeout(timer); done(); reject(new Error("network")); };
+      tag.src = url.replace(/&amp;/g, "&");
+      document.head.appendChild(tag);
+    });
+  }
+  document.querySelectorAll("[data-hubspot-form='newsletter']").forEach((slot) => {
+    const form = slot.querySelector("form");
+    const message = slot.querySelector(".success");
+    if (!form) return;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const input = form.querySelector('input[type="email"]');
+      if (!form.reportValidity()) return;
+      const button = form.querySelector("button");
+      button.disabled = true;
+      const show = (text) => { if (message) { message.textContent = text; message.style.display = "block"; } };
+      show("Signing you up…");
+      const mc = (window.THIS_IS_ME_MAILCHIMP || {}).mailchimpAction;
+      if (mc) {
+        mailchimp(mc, input.value.trim()).then((r) => {
+          if (r.result === "success" || /already subscribed/i.test(r.msg || "")) { form.reset(); show("Thank you – you’re on the list."); }
+          else { console.error("Mailchimp:", r.msg); show("Sorry, that didn’t go through. Please check your email address and try again."); }
+        }).catch((err) => { console.error("Newsletter sign-up failed:", err); show("Sorry, that didn’t go through. Please try again in a moment."); })
+          .finally(() => { button.disabled = false; });
+        return;
+      }
+      try {
+        const res = await fetch(`https://api-eu1.hsforms.com/submissions/v3/integration/submit/${cfg.portalId}/${cfg.newsletterFormId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fields: [{ objectTypeId: "0-1", name: "email", value: input.value.trim() }],
+            context: { pageUri: location.href, pageName: document.title },
+            legalConsentOptions: {
+              consent: {
+                consentToProcess: true,
+                text: cfg.processingText,
+                communications: [{ value: true, subscriptionTypeId: cfg.subscriptionTypeId, text: cfg.consentText }]
+              }
+            }
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error((data.errors && data.errors[0] && data.errors[0].message) || res.status);
+        form.reset();
+        show("Thank you – you’re on the list.");
+      } catch (err) {
+        console.error("Newsletter sign-up failed:", err);
+        show("Sorry, that didn’t go through. Please check your email address and try again.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+})();

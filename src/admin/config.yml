@@ -1,0 +1,110 @@
+# Decap CMS settings for the This is Me website
+# ------------------------------------------------------------------
+# Login: Emma signs in with GitHub. Replace YOUR-GITHUB-USERNAME/this-is-me
+# below with the GitHub repository the site lives in.
+backend:
+  name: github
+  repo: jrmccracken/this-is-me
+  branch: main
+  commit_messages:
+    create: "New post: {{slug}}"
+    update: "Update post: {{slug}}"
+    delete: "Delete post: {{slug}}"
+    uploadMedia: "Upload image: {{path}}"
+    deleteMedia: "Delete image: {{path}}"
+
+site_url: https://thisisme.uk
+display_url: https://thisisme.uk
+logo_url: /assets/img/logo.png
+locale: en
+
+# Images Emma uploads go here
+media_folder: src/assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  - name: posts
+    label: Hub posts & news
+    label_singular: Post
+    description: >
+      Everything on the This is Me Hub (Learn, Read, Listen and News), plus the
+      three stories on the home page. Click "New post" to add one. Your changes go
+      live about a minute after you click Publish.
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    sortable_fields: ["date", "title", "category"]
+    view_groups:
+      - label: Section
+        field: category
+    summary: "{{title}} – {{category}}"
+    fields:
+      - { label: Title, name: title, widget: string,
+          hint: "The main heading of the article." }
+      - label: Hub section
+        name: category
+        widget: select
+        options:
+          - { label: Learn, value: learn }
+          - { label: Read, value: read }
+          - { label: Listen, value: listen }
+          - { label: News, value: news }
+        default: news
+      - { label: Date, name: date, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD" }
+      - { label: Small label above the title, name: label, widget: string, required: false,
+          hint: "Optional, e.g. Podcast, Event, Guide." }
+      - { label: Subtitle, name: subtitle, widget: string, required: false,
+          hint: "Optional one-line intro under the title." }
+      - { label: Short summary (shown on the card), name: summary, widget: text, required: false,
+          hint: "One or two sentences. Keep it short so the cards stay neat." }
+      - { label: Main image, name: image, widget: image, required: false,
+          hint: "Shown at the top of the article. Landscape photos work best." }
+      - { label: Main image description, name: image_alt, widget: string, required: false,
+          hint: "Describe the photo for people using screen readers, e.g. 'Emma speaking at an event'." }
+      - label: Photo position (to keep faces in view)
+        name: image_position
+        widget: select
+        required: false
+        default: upper
+        hint: "If someone's head is cut off on the card, try Top."
+        options:
+          - { label: "Top", value: top }
+          - { label: "Upper (default)", value: upper }
+          - { label: "Centre", value: centre }
+          - { label: "Bottom", value: bottom }
+      - label: Image layout
+        name: image_style
+        widget: select
+        required: false
+        default: wide
+        options:
+          - { label: "Wide, across the top", value: wide }
+          - { label: "Small, beside the text (for a document cover)", value: portrait }
+      - { label: Article, name: body, widget: markdown, required: false,
+          hint: "Leave empty if the card should go straight to a link (e.g. a podcast) instead of an article page." }
+
+      - { label: Link button – web address, name: link_url, widget: string, required: false,
+          hint: "Optional, e.g. a podcast episode or ticket link. If there's no article, the card goes straight here." }
+      - { label: Link button – text, name: link_label, widget: string, required: false,
+          hint: "e.g. Listen to the episode, Get tickets" }
+      - { label: Download – file, name: download, widget: file, required: false,
+          hint: "Optional PDF or file to download." }
+      - { label: Download – button text, name: download_label, widget: string, required: false, default: "Download" }
+
+      - { label: Show on the Hub, name: show_on_hub, widget: boolean, default: true }
+      - { label: Position in its Hub section, name: hub_order, widget: number, required: false, value_type: int, min: 1,
+          hint: "1 = first. Leave empty to sort by date (newest first)." }
+      - { label: Card button text, name: card_button, widget: string, required: false, default: "Read more" }
+      - { label: Card title (if different from the title), name: card_title, widget: string, required: false }
+      - { label: Card image (if different from the main image), name: card_image, widget: image, required: false }
+
+      - { label: Feature on the home page, name: featured_home, widget: boolean, default: false,
+          hint: "The home page shows up to 3 featured posts." }
+      - { label: Home page position, name: home_order, widget: number, required: false, value_type: int, min: 1, max: 3 }
+      - { label: Home page card title (optional), name: home_title, widget: string, required: false }
+      - { label: Home page card image (optional), name: home_image, widget: image, required: false }
+      - { label: Home page button text, name: home_button, widget: string, required: false, default: "Read now" }
+
+      - { label: Draft (hide from the website), name: draft, widget: boolean, default: false, required: false }
