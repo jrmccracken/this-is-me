@@ -201,22 +201,46 @@
   v.addEventListener('pause',function(){ set(true); }); v.addEventListener('play',function(){ set(false); });
 })();
 
-// Live Instagram feed (Behold). Paste the feed ID from Behold between the quotes.
-// While it's empty, the community sections show the fixed photo strip instead.
+// Live Instagram feed (Behold JSON). Fills the "Join our community" photo strips with
+// Emma's latest Instagram posts. If the feed can't be reached, the fixed photos stay.
 (function(){
-  var BEHOLD_FEED_ID = "";
-  if (!BEHOLD_FEED_ID) return;
-  var galleries = document.querySelectorAll('.community .gallery');
-  if (!galleries.length) return;
-  var s = document.createElement('script');
-  s.type = 'module'; s.src = 'https://w.behold.so/widget.js';
-  document.head.appendChild(s);
-  galleries.forEach(function(g){
-    var wrap = document.createElement('div');
-    wrap.className = 'ig-feed';
-    var w = document.createElement('behold-widget');
-    w.setAttribute('feed-id', BEHOLD_FEED_ID);
-    wrap.appendChild(w);
-    g.replaceWith(wrap);
-  });
+  var FEED = 'https://feeds.behold.so/n8BFq1Vy3kvDnjSsREt1';
+  var tracks = document.querySelectorAll('.community .gallery-track');
+  if (!tracks.length || !window.fetch) return;
+  var KEY = 'tim-ig-feed', MAX_AGE = 3 * 60 * 60 * 1000; // re-check every 3 hours per visitor
+  function render(posts){
+    posts = (posts || []).filter(function(p){ return p && p.visibility !== 'hidden' && (p.sizes || p.mediaUrl); }).slice(0, 8);
+    if (posts.length < 3) return;
+    var imgs = posts.map(function(p){
+      var src = (p.sizes && (p.sizes.medium || p.sizes.small) || {}).mediaUrl || p.mediaUrl;
+      var alt = (p.prunedCaption || p.caption || 'Instagram post from Emma Neville').split('\n')[0].slice(0, 120);
+      return { src: src, alt: alt };
+    });
+    tracks.forEach(function(track){
+      var frag = document.createDocumentFragment();
+      // four copies so the strip loops seamlessly on wide screens
+      for (var copy = 0; copy < 4; copy++) {
+        imgs.forEach(function(m){
+          var img = document.createElement('img');
+          img.src = m.src; img.alt = copy === 0 ? m.alt : ''; img.decoding = 'async';
+          if (copy) img.setAttribute('aria-hidden', 'true');
+          img.onerror = function(){ this.style.display = 'none'; };
+          frag.appendChild(img);
+        });
+      }
+      track.innerHTML = ''; track.appendChild(frag);
+      track.classList.add('is-live');
+    });
+  }
+  try {
+    var cached = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (cached && Date.now() - cached.t < MAX_AGE) { render(cached.posts); return; }
+  } catch (e) {}
+  fetch(FEED).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(j){
+      var posts = j.posts || j;
+      render(posts);
+      try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), posts: posts })); } catch (e) {}
+    })
+    .catch(function(){ /* keep the fixed photos */ });
 })();
