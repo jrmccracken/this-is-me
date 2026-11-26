@@ -12,9 +12,9 @@ hub_order: 1
 featured_home: true
 home_order: 3
 home_title: Emma’s Summer Reads
-home_image: /assets/img/card-reads.jpg
+home_image: /assets/img/card-computer.jpg
 home_button: Explore now
-image_position: top
+image_position: upper
 ---
 If you’ve been reading my emails for a while, you’ll know I love a good book recommendation. There’s nothing quite like getting lost in a book that makes you think, feel or laugh.
 

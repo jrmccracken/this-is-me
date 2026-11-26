@@ -1014,3 +1014,6 @@ ul{padding:0;list-style:none}
 @media (max-width:1000px){.footer-meta{bottom:auto;margin-top:40px}}
 /* live Instagram photos are portrait – keep faces in frame */
 .gallery-track.is-live img{object-position:center 28%;background:#f1ece4}
+
+/* ---- v43: article quote box without the yellow border ---- */
+.article blockquote{border:0}
