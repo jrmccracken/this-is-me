@@ -1006,3 +1006,6 @@ ul{padding:0;list-style:none}
 @media (min-width:1001px){
   .charity-hero .hero-content{left:calc(1130 * var(--u));width:calc(720 * var(--u))}
 }
+
+/* ---- v37: case study card truly centred at every width ---- */
+@media (min-width:1001px){.case-card{margin-left:calc(-0.5 * max(300px, calc(647 * var(--u))))}}
