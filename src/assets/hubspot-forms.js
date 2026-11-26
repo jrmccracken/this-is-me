@@ -12,7 +12,7 @@
   "newsletter" form instead, with the marketing consent set up below.
 */
 window.THIS_IS_ME_MAILCHIMP = {
-  mailchimpAction: ""
+  mailchimpAction: "https://thisisme.us2.list-manage.com/subscribe/post?u=b877b1e51f9750f7e2a5f2e15&id=aa68619c21"
 };
 
 window.THIS_IS_ME_HUBSPOT = {
