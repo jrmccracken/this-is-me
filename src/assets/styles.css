@@ -1017,3 +1017,15 @@ ul{padding:0;list-style:none}
 
 /* ---- v43: article quote box without the yellow border ---- */
 .article blockquote{border:0}
+
+/* ---- v44: iPhone (Safari) fixes ---- */
+/* Safari adds its own rounded corners, inner shadow and gradients to fields and buttons */
+input[type="text"],input[type="email"],input[type="tel"],input[type="search"],textarea{-webkit-appearance:none;appearance:none;border-radius:0;box-shadow:none}
+button,input[type="submit"]{-webkit-appearance:none;appearance:none}
+/* iOS ignores overflow:hidden on body alone – stop the page scrolling behind the open menu */
+html:has(body.menu-open){overflow:hidden}
+body.menu-open{touch-action:none}
+body.menu-open .nav-links{touch-action:pan-y;overscroll-behavior:contain}
+@media (max-width:1000px){
+  .field input,.field textarea{min-height:44px;padding-top:10px;padding-bottom:10px}
+}
