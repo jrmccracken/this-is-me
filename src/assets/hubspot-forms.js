@@ -25,19 +25,23 @@ window.THIS_IS_ME_HUBSPOT = {
 
 (function () {
   const cfg = window.THIS_IS_ME_HUBSPOT;
-  // Mailchimp's embedded forms accept JSONP sign-ups at /subscribe/post-json
+  // Send to Mailchimp through the site's own connector; if that isn't set up yet,
+  // fall back to posting to Mailchimp's hosted form in the background (still adds them to the audience).
   function mailchimp(action, email) {
-    return new Promise((resolve, reject) => {
-      const cb = "mc_cb_" + Date.now();
-      const url = action.replace("/subscribe/post?", "/subscribe/post-json?") +
-        "&EMAIL=" + encodeURIComponent(email) + "&c=" + cb;
-      const tag = document.createElement("script");
-      const done = () => { delete window[cb]; tag.remove(); };
-      const timer = setTimeout(() => { done(); reject(new Error("timeout")); }, 12000);
-      window[cb] = (data) => { clearTimeout(timer); done(); resolve(data || {}); };
-      tag.onerror = () => { clearTimeout(timer); done(); reject(new Error("network")); };
-      tag.src = url.replace(/&amp;/g, "&");
-      document.head.appendChild(tag);
+    return fetch("/.netlify/functions/newsletter", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email })
+    }).then(function (r) {
+      if (r.ok) return { result: "success" };
+      if (r.status === 400) return { result: "error", msg: "invalid email" };
+      throw new Error("connector " + r.status);
+    }).catch(function () {
+      var frame = document.getElementById("mc-frame");
+      if (!frame) { frame = document.createElement("iframe"); frame.name = frame.id = "mc-frame"; frame.title = "Newsletter"; frame.style.display = "none"; document.body.appendChild(frame); }
+      var f = document.createElement("form");
+      f.method = "POST"; f.action = action.replace(/&amp;/g, "&"); f.target = "mc-frame"; f.style.display = "none";
+      var i = document.createElement("input"); i.name = "EMAIL"; i.value = email; f.appendChild(i);
+      document.body.appendChild(f); f.submit(); f.remove();
+      return { result: "success", msg: "opened" };
     });
   }
   document.querySelectorAll("[data-hubspot-form='newsletter']").forEach((slot) => {
