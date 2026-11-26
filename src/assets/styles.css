@@ -1000,3 +1000,9 @@ ul{padding:0;list-style:none}
   .footer-credit{justify-content:flex-start;margin-top:18px;padding-top:14px;font-size:12px}
   .footer-credit img{height:15px}
 }
+
+/* ---- v36: charity heading kerning + position ---- */
+.tight-k{letter-spacing:-0.07em}
+@media (min-width:1001px){
+  .charity-hero .hero-content{left:calc(1130 * var(--u));width:calc(720 * var(--u))}
+}

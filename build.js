@@ -20,7 +20,7 @@ const ROOT = __dirname;
 const SRC = path.join(ROOT, "src");
 const OUT = path.join(ROOT, "dist");
 const POSTS = path.join(ROOT, "content", "posts");
-const VERSION = "35";
+const VERSION = "36";
 
 const CATEGORIES = {
   learn: "Learn",
