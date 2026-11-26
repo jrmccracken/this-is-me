@@ -216,13 +216,23 @@
       var alt = (p.prunedCaption || p.caption || 'Instagram post from Emma Neville').split('\n')[0].slice(0, 120);
       return { src: src, alt: alt };
     });
+    // download the photos first so visitors never see empty tiles, then swap them in
+    var pending = imgs.length, done = false;
+    function swap(){ if (done) return; done = true; build(); }
+    imgs.forEach(function(m){
+      var pre = new Image();
+      pre.onload = pre.onerror = function(){ if (--pending <= 0) swap(); };
+      pre.src = m.src;
+    });
+    setTimeout(swap, 6000); // don't wait forever on a slow connection
+    function build(){
     tracks.forEach(function(track){
       var frag = document.createDocumentFragment();
       // four copies so the strip loops seamlessly on wide screens
       for (var copy = 0; copy < 4; copy++) {
         imgs.forEach(function(m){
           var img = document.createElement('img');
-          img.src = m.src; img.alt = copy === 0 ? m.alt : ''; img.decoding = 'async';
+          img.width = 311; img.height = 289; img.src = m.src; img.alt = copy === 0 ? m.alt : ''; img.decoding = 'async';
           if (copy) img.setAttribute('aria-hidden', 'true');
           img.onerror = function(){ this.style.display = 'none'; };
           frag.appendChild(img);
@@ -230,6 +240,35 @@
       }
       track.innerHTML = ''; track.appendChild(frag);
       track.classList.add('is-live');
+      startLoop(track, imgs.length);
+    });
+    }
+  }
+  // Drive the loop in JS with pixel values: iOS Safari doesn't re-measure a running
+  // CSS animation (50% / var() values) after the strip's contents are replaced.
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function startLoop(track, perSet){
+    if (reduce || !track.animate) return;
+    var anim;
+    function run(){
+      var kids = track.children;
+      if (kids.length <= perSet) return;
+      var setW = kids[perSet].offsetLeft - kids[0].offsetLeft;
+      if (!setW) return;
+      var offset = Math.min(0, -0.06 * setW);
+      if (anim) anim.cancel();
+      track.style.animation = 'none';
+      track.style.transform = 'none';
+      anim = track.animate(
+        [{ transform: 'translate3d(' + offset + 'px,0,0)' }, { transform: 'translate3d(' + (offset - setW) + 'px,0,0)' }],
+        { duration: setW / 40 * 1000, iterations: Infinity, easing: 'linear' }
+      );
+    }
+    run();
+    var w = window.innerWidth, t;
+    window.addEventListener('resize', function(){
+      if (window.innerWidth === w) return; // ignore iOS address-bar show/hide
+      w = window.innerWidth; clearTimeout(t); t = setTimeout(run, 200);
     });
   }
   try {

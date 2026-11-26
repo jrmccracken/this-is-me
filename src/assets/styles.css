@@ -1029,3 +1029,7 @@ body.menu-open .nav-links{touch-action:pan-y;overscroll-behavior:contain}
 @media (max-width:1000px){
   .field input,.field textarea{min-height:44px;padding-top:10px;padding-bottom:10px}
 }
+
+/* ---- v45: live Instagram strip (motion handled in site.js) ---- */
+.gallery-track.is-live{will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.gallery-track.is-live img{flex:0 0 auto;height:auto}
