@@ -1009,3 +1009,6 @@ ul{padding:0;list-style:none}
 
 /* ---- v37: case study card truly centred at every width ---- */
 @media (min-width:1001px){.case-card{margin-left:calc(-0.5 * max(300px, calc(647 * var(--u))))}}
+
+/* ---- v39: mobile footer – icons no longer pulled up into the logo ---- */
+@media (max-width:1000px){.footer-meta{bottom:auto;margin-top:40px}}
