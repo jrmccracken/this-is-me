@@ -68,7 +68,7 @@ collections:
         widget: select
         required: false
         default: upper
-        hint: "If someone's head is cut off on the card, try Top."
+        hint: "If someone's head is cut off on the card, choose Top – the photo will then always show from the very top edge."
         options:
           - { label: "Top", value: top }
           - { label: "Upper (default)", value: upper }

@@ -13,7 +13,7 @@ link_label: Listen to the episode
 show_on_hub: true
 hub_order: 5
 card_image: /assets/img/conversation-emma.jpg
-image_position: upper
+image_position: top
 ---
 If you had told me ten years ago that I would be on this podcast, I would not have believed it.
 

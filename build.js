@@ -20,7 +20,7 @@ const ROOT = __dirname;
 const SRC = path.join(ROOT, "src");
 const OUT = path.join(ROOT, "dist");
 const POSTS = path.join(ROOT, "content", "posts");
-const VERSION = "46";
+const VERSION = "47";
 
 const CATEGORIES = {
   learn: "Learn",
@@ -35,7 +35,7 @@ marked.setOptions({ gfm: true, breaks: false });
 // ---------- helpers ----------
 const esc = (s = "") =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const POS = { top: "center 10%", upper: "center 25%", centre: "center center", bottom: "center 85%" };
+const POS = { top: "center top", upper: "center 25%", centre: "center center", bottom: "center 85%" };
 const posStyle = (p) => (p.image_position && POS[p.image_position] ? ` style="object-position:${POS[p.image_position]}"` : "");
 const isExternal = (url = "") => /^https?:\/\//i.test(url);
 const linkAttrs = (url) => (isExternal(url) ? ' target="_blank" rel="noopener"' : "");

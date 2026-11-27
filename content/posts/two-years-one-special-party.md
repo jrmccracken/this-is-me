@@ -5,8 +5,11 @@ label: Community
 date: 2025-09-20
 summary: A night of celebration, fundraising and proof of what this community has become.
 card_button: Read more
-image: /assets/community-2.png
-image_alt: This is Me community celebration
+image: /assets/img/card-birthday-drum.jpg
+image_alt: Emma playing a This is Me drum
+card_image: /assets/img/card-birthday-drum.jpg
+card_image_alt: Emma playing a This is Me drum
+image_position: top
 show_on_hub: true
 hub_order: 2
 ---
