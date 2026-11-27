@@ -55,5 +55,3 @@ I return to this book because it brings me peace. It helps you question the stor
 ### I Still Believe in Miracles by Lucas Jones
 
 Lucas’s poems are helping me put words on paper again. There is so much meaning in poetry when you really feel the words.
-
-> I’d love to know what you’re reading. Send me your recommendations - I’m always looking for my next one. Emma xx
