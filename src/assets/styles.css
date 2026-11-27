@@ -1033,3 +1033,6 @@ body.menu-open .nav-links{touch-action:pan-y;overscroll-behavior:contain}
 /* ---- v45: live Instagram strip (motion handled in site.js) ---- */
 .gallery-track.is-live{will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .gallery-track.is-live img{flex:0 0 auto;height:auto}
+
+/* ---- v48: photos inside article text ---- */
+.article p > img{display:block;width:100%;height:auto;border-radius:22px;margin:12px 0}

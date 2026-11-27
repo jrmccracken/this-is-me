@@ -19,6 +19,8 @@ When I posted that first Instagram reel, I did not have a plan. I simply wanted 
 
 Two years later, This is Me had grown into a thriving community of nearly 30,000 people around the world, encouraging honest conversations and bringing women together.
 
+![Emma holding a Brain Fog sign](/assets/img/birthday-brain-fog.jpg)
+
 We welcomed CoppaFeel!, Mother Cuppa by Candice Mason and Brooke Vincent’s Oh So B, raised money for Bury Cancer Support Centre and filled the room with laughter and music.
 
 Conversations that once felt silenced or shameful are finally being heard. We will be the generation that makes menopause matter.
